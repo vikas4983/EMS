@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,5 +13,5 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    
+    Route::resource('categories', CategoryController::class);
 });

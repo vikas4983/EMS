@@ -4,9 +4,7 @@
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
-
-
-    <meta charset="UTF-8">
+      <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description"
         content="Modern Education Admin Dashboard for schools, colleges, universities, and eLearning platforms. Includes student and course management, attendance, exams, payments, analytics, and a fully responsive clean UI—ideal for LMS, coaching centers, and academic admin systems.">
@@ -16,23 +14,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Title -->
     <title>@yield('title')</title>
-    <link rel="icon" type="image/png" href="../assets/images/favicon.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="{{asset('assets/images/favicon.png')}}" sizes="16x16">
     <!-- remix icon font css  -->
-    <link rel="stylesheet" href="../assets/css/remixicon.css">
+    <link rel="stylesheet" href="{{asset('assets/css/remixicon.css')}}">
     <!-- BootStrap css -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
     <!-- Apex Chart css -->
-    <link rel="stylesheet" href="../assets/css/apexcharts.css">
+    <link rel="stylesheet" href="{{asset('assets/css/apexcharts.css')}}">
     <!-- Data Table css -->
-    <link rel="stylesheet" href="../assets/css/dataTables.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css/dataTables.min.css')}}">
     <!-- Date picker css -->
-    <link rel="stylesheet" href="../assets/css/flatpickr.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css/flatpickr.min.css')}}">
     <!-- Calendar css -->
-    <link rel="stylesheet" href="../assets/css/full-calendar.css">
+    <link rel="stylesheet" href="{{asset('assets/css/full-calendar.css')}}">
     <!-- calendar -->
-    <link rel="stylesheet" href="../assets/css/calendar.css">
+    <link rel="stylesheet" href="{{asset('assets/css/calendar.css')}}">
     <!-- main css -->
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 </head>
 
 <body>
@@ -161,9 +159,9 @@
         <div class="">
             <div class="sidebar-logo d-flex align-items-center justify-content-between">
                 <a href="schoolDashboard.html" class="">
-                    <img src="../assets/images/logo.png" alt="site logo" class="light-logo">
-                    <img src="../assets/images/logo-light.png" alt="site logo" class="dark-logo">
-                    <img src="../assets/images/logo-icon.png" alt="site logo" class="logo-icon">
+                    <img src="{{asset('assets/images/logo.png')}}" alt="site logo" class="light-logo">
+                    <img src="{{asset('assets/images/logo-light.png')}}" alt="site logo" class="dark-logo">
+                    <img src="{{asset('assets/images/logo-icon.png')}}" alt="site logo" class="logo-icon">
                 </a>
                 <button type="button" class="text-xxl d-xl-flex d-none line-height-1 sidebar-toggle text-neutral-500"
                     aria-label="Collapse Sidebar">
@@ -181,7 +179,7 @@
                     class="profile-dropdown__button d-flex align-items-center justify-content-between p-10 w-100 overflow-hidden bg-neutral-50 radius-12 "
                     data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                     <span class="d-flex align-items-start gap-10">
-                        <img src="./../assets/images/leave-request-img2.png" alt="Thumbnail"
+                        <img src="{{asset('assets/images/leave-request-img2.png')}}" alt="Thumbnail"
                             class="w-40-px h-40-px rounded-circle object-fit-cover flex-shrink-0">
                         <span class="profile-dropdown__contents">
                             <span class="h6 mb-0 text-md d-block text-primary-light">
@@ -232,53 +230,22 @@
                         <i class="ri-home-4-line"></i>
                         <span>Dashboard </span>
                     </a>
-                    {{-- <ul class="sidebar-submenu">
-                        <li>
-                            <a href="schoolDashboard.html">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                School
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../student/studentDashboard.html">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                Student
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../teacher/teacherDashboard.html">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                Teacher
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../parent/parentDashboard.html">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                Parent
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../LMS/lmsDashbaord.html">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                LMS
-                            </a>
-                        </li>
-                    </ul> --}}
+                   
                 </li>
                 <li class="dropdown">
                     <a href="javascript:void(0)">
                         <i class="ri-graduation-cap-line"></i>
-                        <span>Expense Category</span>
+                        <span>Category</span>
                     </a>
                     <ul class="sidebar-submenu">
                         <li>
-                            <a href="add-new-student.html">
+                            <a href="{{route('categories.index')}}">
                                 <i class="ri-circle-fill circle-icon w-auto"></i>
                                 List
                             </a>
                         </li>
                         <li>
-                            <a href="student-list.html">
+                            <a href="{{route('categories.create')}}">
                                 <i class="ri-circle-fill circle-icon w-auto"></i>
                                 Create
                             </a>
@@ -315,7 +282,7 @@
                             <button
                                 class="has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
                                 type="button" data-bs-toggle="dropdown" aria-label="Language Change Button">
-                                <img src="../assets/images/flag1.png" alt="image"
+                                <img src="{{asset('')}}assets/images/flag1.png" alt="image"
                                     class="w-24 h-24 object-fit-cover rounded-circle">
                             </button>
                             <div class="dropdown-menu to-top dropdown-menu-sm">
@@ -334,7 +301,7 @@
                                             for="english">
                                             <span
                                                 class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="../assets/images/flag1.png" alt="Image"
+                                                <img src="{{asset('')}}assets/images/flag1.png" alt="Image"
                                                     class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
                                                 <span class="text-md fw-semibold mb-0">English</span>
                                             </span>
@@ -349,7 +316,7 @@
                                             for="japan">
                                             <span
                                                 class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="../assets/images/flag2.png" alt="Image"
+                                                <img src="{{asset('')}}assets/images/flag2.png" alt="Image"
                                                     class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
                                                 <span class="text-md fw-semibold mb-0">Japan</span>
                                             </span>
@@ -364,7 +331,7 @@
                                             for="france">
                                             <span
                                                 class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="../assets/images/flag3.png" alt="Image"
+                                                <img src="{{asset('')}}assets/images/flag3.png" alt="Image"
                                                     class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
                                                 <span class="text-md fw-semibold mb-0">France</span>
                                             </span>
@@ -379,7 +346,7 @@
                                             for="germany">
                                             <span
                                                 class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="../assets/images/flag4.png" alt="Image"
+                                                <img src="{{asset('')}}assets/images/flag4.png" alt="Image"
                                                     class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
                                                 <span class="text-md fw-semibold mb-0">Germany</span>
                                             </span>
@@ -394,7 +361,7 @@
                                             for="korea">
                                             <span
                                                 class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="../assets/images/flag5.png" alt="Image"
+                                                <img src="{{asset('')}}assets/images/flag5.png" alt="Image"
                                                     class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
                                                 <span class="text-md fw-semibold mb-0">South Korea</span>
                                             </span>
@@ -409,7 +376,7 @@
                                             for="bangladesh">
                                             <span
                                                 class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="../assets/images/flag6.png" alt="Image"
+                                                <img src="{{asset('')}}assets/images/flag6.png" alt="Image"
                                                     class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
                                                 <span class="text-md fw-semibold mb-0">Bangladesh</span>
                                             </span>
@@ -424,7 +391,7 @@
                                             for="india">
                                             <span
                                                 class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="../assets/images/flag7.png" alt="Image"
+                                                <img src="{{asset('')}}assets/images/flag7.png" alt="Image"
                                                     class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
                                                 <span class="text-md fw-semibold mb-0">India</span>
                                             </span>
@@ -438,7 +405,7 @@
                                             for="canada">
                                             <span
                                                 class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="../assets/images/flag8.png" alt="Image"
+                                                <img src="{{asset('')}}assets/images/flag8.png" alt="Image"
                                                     class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
                                                 <span class="text-md fw-semibold mb-0">Canada</span>
                                             </span>
@@ -494,7 +461,7 @@
                                             class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
                                             <span
                                                 class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0">
-                                                <img src="../assets/images/profile-1.png" alt="Image">
+                                                <img src="{{asset('')}}assets/images/profile-1.png" alt="Image">
                                             </span>
                                             <div>
                                                 <h6 class="text-md fw-semibold mb-4">Ronald Richards</h6>
@@ -528,7 +495,7 @@
                                             class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
                                             <span
                                                 class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0">
-                                                <img src="../assets/images/prof" alt="Image">
+                                                <img src="{{asset('')}}assets/images/prof" alt="Image">
                                             </span>
                                             <div>
                                                 <h6 class="text-md fw-semibold mb-4">Robiul Hasan</h6>
@@ -580,21 +547,21 @@
     </main>
 
     <!-- jQuery library js -->
-    <script src="../assets/js/jquery-3.7.1.min.js"></script>
+    <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
     <!-- Bootstrap js -->
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
     <!-- Apex Chart js -->
-    <script src="../assets/js/apexcharts.min.js"></script>
+    <script src="{{asset('assets/js/apexcharts.min.js')}}"></script>
     <!-- Iconify Font js -->
-    <script src="../assets/js/iconify-icon.min.js"></script>
+    <script src="{{asset('assets/js/iconify-icon.min.js')}}"></script>
     <!-- Data Table js -->
-    <script src="../assets/js/dataTables.min.js"></script>
+    <script src="{{asset('assets/js/dataTables.min.js')}}"></script>
 
     <!-- jQuery UI js -->
-    <script src="../assets/js/jquery-ui.min.js"></script>
+    <script src="{{asset('assets/js/jquery-ui.min.js')}}"></script>
 
     <!-- main js -->
-    <script src="../assets/js/app.js"></script>
+    <script src="{{asset('assets/js/app.js')}}"></script>
 
     <script>
         // ============================ Revenue Statistics Chart start ===============================
