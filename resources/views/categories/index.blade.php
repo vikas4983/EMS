@@ -209,7 +209,13 @@
                                         @endif
                                     </td>
                                     <td>
-                                        {{ $category->status_label }}
+                                        <span
+                                            class="
+        {{ $category->status_label == 'Active' ? 'bg-success-100 text-success-600' : 'bg-danger-100 text-danger-600' }}
+        px-24 py-4 radius-4 fw-medium text-sm">
+                                            {{ $category->status_label }}
+                                        </span>
+                                    </td>
                                     </td>
                                     <td>
                                         <div class="btn-group">
