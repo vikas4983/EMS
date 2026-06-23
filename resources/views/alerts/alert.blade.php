@@ -17,7 +17,7 @@
         </div>
     @endif
 @endforeach
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         const flash = document.getElementById('flashMessage');
         if (flash) {
@@ -34,4 +34,4 @@
         }
 
     });
-</script>
+</script> --}}

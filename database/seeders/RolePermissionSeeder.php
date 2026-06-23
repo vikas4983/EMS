@@ -19,9 +19,9 @@ class RolePermissionSeeder extends Seeder
         $employee = Role::findByName('employee');
 
         
-        // $admin->syncPermissions(
-        //     Permission::pluck('name')->toArray()
-        // );
+        $admin->syncPermissions(
+            Permission::pluck('name')->toArray()
+        );
 
         
         $manager->syncPermissions([

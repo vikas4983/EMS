@@ -6,19 +6,14 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class ActionGroupComponent extends Component
+class ExpenseStatusModalComponent extends Component
 {
     /**
      * Create a new component instance.
      */
-    public $url;
-    public $type;
-    public $id;
-    public function __construct($type, $url=null, $id=null)
+    public function __construct()
     {
-        $this->url = $url;
-        $this->type = $type;
-        $this->id = $id;
+        //
     }
 
     /**
@@ -26,6 +21,6 @@ class ActionGroupComponent extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.buttons.action-group-component');
+        return view('components.buttons.expense-status-modal-component');
     }
 }
