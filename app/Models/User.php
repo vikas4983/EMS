@@ -65,4 +65,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Expense::class);
     }
+    public function scopeEmployee($query)
+    {
+        return $query->role('admin')->select('id', 'name')->latest();
+    }
 }

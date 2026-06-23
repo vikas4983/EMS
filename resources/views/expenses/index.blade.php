@@ -1,26 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Expenses')
 @section('content')
-    {{-- <style>
-        .dataTables_paginate,
-        .dataTables_info,
-        .dataTables_length,
-        .dataTables_filter {
-            display: none !important;
-        }
 
-        .dropdown-submenu .excel-submenu {
-            display: none;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            cursor: pointer;
-        }
-
-        .dropdown-submenu:hover .excel-submenu {
-            display: block;
-        }
-    </style> --}}
     <div class="dashboard-main-body">
         <div class="breadcrumb d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
             <a href="{{ route('expenses.create') }}" class="btn btn-primary-600 d-flex align-items-center gap-6 ">
@@ -37,62 +18,7 @@
                     <div
                         class="d-flex align-items-center justify-content-between flex-wrap gap-16 px-20 py-12 border-bottom border-neutral-200">
                         <div class="d-flex flex-wrap align-items-center gap-16">
-                            <div class="dropdown">
-                                <button type="button"
-                                    class="px-12 py-5-px border border-neutral-300 radius-8 d-flex align-items-center gap-20 "
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-flex align-items-center gap-1 text-secondary-light text-sm">
-                                        <i class="ri-file-upload-line text-md line-height-1"></i>
-                                        Export
-                                    </span>
-                                    <span class="">
-                                        <i class="ri-arrow-down-s-line"></i>
-                                    </span>
-                                </button>
-                                <ul class="dropdown-menu p-12 border bg-base shadow">
-                                    <li>
-                                        <button type="button"
-                                            class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModalView">
-                                            <i class="ri-file-3-line"></i>
-                                            PDF
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button"
-                                            class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModalEdit">
-                                            <i class="ri-file-excel-line"></i>
-                                            Excel
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <form class="navbar-search dt-search m-0">
-                                <input type="text" class="dt-input bg-transparent radius-4" aria-controls="dataTable"
-                                    name="search" placeholder="Search...">
-                                <iconify-icon icon="ion:search-outline" class="icon"><template shadowrootmode="open">
-                                        <style data-style="data-style">
-                                            :host {
-                                                display: inline-block;
-                                                vertical-align: 0
-                                            }
 
-                                            span,
-                                            svg {
-                                                display: block
-                                            }
-                                        </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 512 512">
-                                            <path fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                stroke-width="32"
-                                                d="M221.09 64a157.09 157.09 0 1 0 157.09 157.09A157.1 157.1 0 0 0 221.09 64Z">
-                                            </path>
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path>
-                                        </svg>
-                                    </template></iconify-icon>
-                            </form>
                             <div class="dropdown">
                                 <button type="button"
                                     class="px-12 py-5-px border border-neutral-300 radius-8 d-flex align-items-center gap-20"
@@ -112,54 +38,91 @@
                                         </button>
                                     </div>
 
-                                    <form action="#" class="p-16 d-grid grid-cols-2 gap-16">
+                                    <form action="{{ route('expense.filter') }}" method="get"
+                                        class="p-16 d-grid grid-cols-2 gap-16">
+
                                         <div class="">
-                                            <label for="class"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">Class</label>
-                                            <select id="class" class="form-control form-select">
-                                                <option value="Select" disabled="">Select Class</option>
-                                                <option value="Primary">Primary</option>
-                                                <option value="SSC">SSC</option>
-                                                <option value="HSC">HSC</option>
-                                                <option value="Hons">Hons</option>
-                                                <option value="Masters">Masters</option>
-                                            </select>
+                                            <label for="date"
+                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                Start Date
+                                            </label>
+                                            <input type="date" name="start_date" class="form-control">
                                         </div>
+
                                         <div class="">
-                                            <label for="section"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">Section</label>
-                                            <select id="section" class="form-control form-select">
-                                                <option value="Select">Select Section</option>
-                                                <option value="Arts">Arts</option>
-                                                <option value="Science">Science</option>
-                                                <option value="Commerce">Commerce</option>
-                                            </select>
+                                            <label for="date"
+                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                End Date
+                                            </label>
+                                            <input type="date" name="end_date" class="form-control">
                                         </div>
-                                        <div class="">
-                                            <label for="gender"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">Gender</label>
-                                            <select id="gender" class="form-control form-select">
-                                                <option value="Select">Select Gender</option>
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                            </select>
-                                        </div>
+
                                         <div class="">
                                             <label for="status"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">Status</label>
-                                            <select id="status" class="form-control form-select">
-                                                <option value="Select">Select Status</option>
-                                                <option value="Active">Active</option>
-                                                <option value="Inactive">Inactive</option>
+                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                Approval Status
+                                            </label>
+                                            <select id="status" name="status" class="form-control form-select">
+                                                <option value="">All Status</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="approved">Approved</option>
+                                                <option value="rejected">Rejected</option>
                                             </select>
                                         </div>
+
                                         <div class="">
-                                            <button type="reset"
-                                                class="btn btn-danger-200 text-danger-600 w-100">Reset</button>
+                                            <label for="employee_id"
+                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                Employee
+                                            </label>
+                                            <select id="employee_id" name="employee_id" class="form-control form-select">
+                                                <option value="">All Employees</option>
+                                                @foreach ($employees as $employee)
+                                                    <option value="{{ $employee->id }}">
+                                                        {{ $employee->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
+
                                         <div class="">
-                                            <button type="submit" class="btn btn-primary-600 w-100">Apply</button>
+                                            <label for="category_id"
+                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                Category
+                                            </label>
+                                            <select id="category_id" name="category_id" class="form-control form-select">
+                                                <option value="">All Categories</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}">
+                                                        {{ $category->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
+
+                                        {{-- CSV Download Checkbox --}}
+                                        <div class="col-span-2">
+                                            <div class="form-check mt-8">
+                                                <input class="form-check-input" type="checkbox" name="download_csv"
+                                                    value="1" id="download_csv"> <label class="form-check-label"
+                                                    for="download_csv">
+                                                    Download report
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="">
+                                            <button type="reset" class="btn btn-danger-200 text-danger-600 w-100">
+                                                Reset
+                                            </button>
+                                        </div>
+
+                                        <div class="">
+                                            <button type="submit" class="btn btn-primary-600 w-100">
+                                                Apply
+                                            </button>
+                                        </div>
+
                                     </form>
                                 </div>
                             </div>
@@ -172,7 +135,7 @@
                     <span class="errorMessage  alert alert-danger" style="width: 100%; display:none;">
                     </span>
                     <div class="p-0 result table-responsive">
-                        <table class="table bordered-table mb-0 " id="dataTable" data-page-length='10'>
+                        <table class="table bordered-table mb-0 data-table dataTable" id="dataTable" data-page-length='10'>
                             <thead>
                                 <tr>
                                     <th scope="col">
@@ -299,5 +262,14 @@
         </div>
     </div>
     </div>
-
+    @push('scripts')
+        @if (session('auto_download') || (isset($auto_download) && $auto_download))
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Auto download trigger
+                    window.location.href = '{{ route('expense.export') }}';
+                });
+            </script>
+        @endif
+    @endpush
 @endsection

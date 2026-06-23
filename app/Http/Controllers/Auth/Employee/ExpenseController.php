@@ -7,6 +7,8 @@ use App\Http\Requests\Expense\ExpenseRequest;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\ExpenseReceipt;
+use App\Models\User;
+use App\Services\ExpenseFilterService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +27,9 @@ class ExpenseController extends Controller
             ->withTrashed()
             ->latest()
             ->paginate(10);
-        return view('expenses.index', compact('expenses'));
+        $categories = Category::active()->get();
+        $employees = User::employee()->get();
+        return view('expenses.index', compact('expenses', 'categories', 'employees'));
     }
 
     /**
@@ -130,10 +134,8 @@ class ExpenseController extends Controller
         return Storage::disk('public')->download($receipt->file_path, $receipt->file_name);
     }
 
-   
     public function approve(Request $request)
     {
-       
         $expense = Expense::findOrFail($request->id);
 
         $expense->update([
@@ -146,7 +148,6 @@ class ExpenseController extends Controller
             'message' => 'Expense approved successfully.',
         ]);
     }
-
 
     public function reject(Request $request)
     {

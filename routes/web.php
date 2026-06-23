@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\Admin\CategoryController;
+use App\Http\Controllers\Auth\Admin\FilterExpenseController;
 use App\Http\Controllers\Auth\Employee\ExpenseController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('receipts/{receipt}', [ExpenseController::class, 'download'])->name('receipts.download');
     Route::post('approve-expense', [ExpenseController::class, 'approve'])->name('expense.approve');
     Route::post('reject-expense', [ExpenseController::class, 'reject'])->name('expense.reject');
+    Route::get('expense-fileter', [FilterExpenseController::class, 'filter'])->name('expense.filter');
+    Route::get('/expenses/export', [FilterExpenseController::class, 'export'])->name('expense.export');
 });

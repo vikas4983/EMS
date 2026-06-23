@@ -11,7 +11,7 @@ class Category extends Model
 
     public function scopeActive($query)
     {
-        $query->where('status', '1')->latest();
+        $query->where('status', '1')->select('name', 'id')->latest();
     }
     public function scopeInactive($query)
     {
@@ -23,8 +23,6 @@ class Category extends Model
     }
     protected function statusLabel(): Attribute
     {
-        return Attribute::make(
-            get: fn() => $this->status ? 'Active' : 'Inactive'
-        );
+        return Attribute::make(get: fn() => $this->status ? 'Active' : 'Inactive');
     }
 }
