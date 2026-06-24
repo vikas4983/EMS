@@ -41,4 +41,5 @@ class Expense extends Model
     {
         return $this->hasMany(ExpenseReceipt::class,'expense_id');
     }
+    
 }

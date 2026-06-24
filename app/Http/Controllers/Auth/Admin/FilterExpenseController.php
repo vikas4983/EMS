@@ -15,6 +15,7 @@ class FilterExpenseController extends Controller
         $query = $expenseFilterService->filter($request->all());
 
         if ($request->filled('download_csv')) {
+           
             return $this->export($request, $expenseFilterService);
         }
 
@@ -27,7 +28,7 @@ class FilterExpenseController extends Controller
 
     public function export(Request $request, ExpenseFilterService $expenseFilterService)
     {
-        $filters = $request->except(['download_csv', '_token']) ?: session('export_filters', []);
+        $filters = $request->except(['download_csv', '_token']) ?: session('auto_download', []);
 
         $expenses = $expenseFilterService->filter($filters)->get();
 

@@ -19,13 +19,21 @@ class PermissionSeeder extends Seeder
             'category.create',
             'category.edit',
             'category.delete',
-            // Manager Actions
-            'expense.approve',
-            'expense.reject',
+
             // Expense
             'expense.view',
             'expense.create',
             'expense.edit',
+            'expense.delete',
+            'expense.approve',
+            'expense.reject',
+            'expense.comment',
+
+            // Report 
+            'report.view',
+            'report.generate',
+
+          
         ];
 
         foreach ($permissions as $permission) {

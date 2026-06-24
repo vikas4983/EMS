@@ -3,132 +3,136 @@
 @section('content')
 
     <div class="dashboard-main-body">
-        <div class="breadcrumb d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
-            <a href="{{ route('expenses.create') }}" class="btn btn-primary-600 d-flex align-items-center gap-6 ">
-                <span class="d-flex text-md">
-                    <i class="ri-add-large-line"></i>
-                </span>
-                Add Expense
-            </a>
-        </div>
+        @can('expense.create')
+            <div class="breadcrumb d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
+                <a href="{{ route('expenses.create') }}" class="btn btn-primary-600 d-flex align-items-center gap-6 ">
+                    <span class="d-flex text-md">
+                        <i class="ri-add-large-line"></i>
+                    </span>
+                    Add Expense
+                </a>
+            </div>
+        @endcan
         @include('alerts.alert')
         <div class="mt-24">
             <div class="card h-100">
                 <div class="card-body p-0 dataTable-wrapper">
-                    <div
-                        class="d-flex align-items-center justify-content-between flex-wrap gap-16 px-20 py-12 border-bottom border-neutral-200">
-                        <div class="d-flex flex-wrap align-items-center gap-16">
+                    @role('admin')
+                        <div
+                            class="d-flex align-items-center justify-content-between flex-wrap gap-16 px-20 py-12 border-bottom border-neutral-200">
+                            <div class="d-flex flex-wrap align-items-center gap-16">
 
-                            <div class="dropdown">
-                                <button type="button"
-                                    class="px-12 py-5-px border border-neutral-300 radius-8 d-flex align-items-center gap-20"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="d-flex align-items-center gap-1 text-secondary-light text-sm">
-                                        Filter
-                                    </span>
-                                    <span class="">
-                                        <i class="ri-arrow-down-s-line"></i>
-                                    </span>
-                                </button>
-                                <div class="dropdown-menu border bg-base shadow dropdown-menu-lg p-0">
-                                    <div class="d-flex align-items-center justify-content-between border-bottom py-8 px-16">
-                                        <span class="fw-semibold text-lg text-primary-light">Filter</span>
-                                        <button type="button">
-                                            <i class="ri-close-large-line"></i>
-                                        </button>
-                                    </div>
-
-                                    <form action="{{ route('expense.filter') }}" method="get"
-                                        class="p-16 d-grid grid-cols-2 gap-16">
-
-                                        <div class="">
-                                            <label for="date"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
-                                                Start Date
-                                            </label>
-                                            <input type="date" name="start_date" class="form-control">
+                                <div class="dropdown">
+                                    <button type="button"
+                                        class="px-12 py-5-px border border-neutral-300 radius-8 d-flex align-items-center gap-20"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="d-flex align-items-center gap-1 text-secondary-light text-sm">
+                                            Filter
+                                        </span>
+                                        <span class="">
+                                            <i class="ri-arrow-down-s-line"></i>
+                                        </span>
+                                    </button>
+                                    <div class="dropdown-menu border bg-base shadow dropdown-menu-lg p-0">
+                                        <div class="d-flex align-items-center justify-content-between border-bottom py-8 px-16">
+                                            <span class="fw-semibold text-lg text-primary-light">Filter</span>
+                                            <button type="button">
+                                                <i class="ri-close-large-line"></i>
+                                            </button>
                                         </div>
 
-                                        <div class="">
-                                            <label for="date"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
-                                                End Date
-                                            </label>
-                                            <input type="date" name="end_date" class="form-control">
-                                        </div>
+                                        <form action="{{ route('expense.filter') }}" method="get"
+                                            class="p-16 d-grid grid-cols-2 gap-16">
 
-                                        <div class="">
-                                            <label for="status"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
-                                                Approval Status
-                                            </label>
-                                            <select id="status" name="status" class="form-control form-select">
-                                                <option value="">All Status</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="approved">Approved</option>
-                                                <option value="rejected">Rejected</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="">
-                                            <label for="employee_id"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
-                                                Employee
-                                            </label>
-                                            <select id="employee_id" name="employee_id" class="form-control form-select">
-                                                <option value="">All Employees</option>
-                                                @foreach ($employees as $employee)
-                                                    <option value="{{ $employee->id }}">
-                                                        {{ $employee->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="">
-                                            <label for="category_id"
-                                                class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
-                                                Category
-                                            </label>
-                                            <select id="category_id" name="category_id" class="form-control form-select">
-                                                <option value="">All Categories</option>
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">
-                                                        {{ $category->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        {{-- CSV Download Checkbox --}}
-                                        <div class="col-span-2">
-                                            <div class="form-check mt-8">
-                                                <input class="form-check-input" type="checkbox" name="download_csv"
-                                                    value="1" id="download_csv"> <label class="form-check-label"
-                                                    for="download_csv">
-                                                    Download report
+                                            <div class="">
+                                                <label for="date"
+                                                    class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                    Start Date
                                                 </label>
+                                                <input type="date" name="start_date" class="form-control">
                                             </div>
-                                        </div>
 
-                                        <div class="">
-                                            <button type="reset" class="btn btn-danger-200 text-danger-600 w-100">
-                                                Reset
-                                            </button>
-                                        </div>
+                                            <div class="">
+                                                <label for="date"
+                                                    class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                    End Date
+                                                </label>
+                                                <input type="date" name="end_date" class="form-control">
+                                            </div>
 
-                                        <div class="">
-                                            <button type="submit" class="btn btn-primary-600 w-100">
-                                                Apply
-                                            </button>
-                                        </div>
+                                            <div class="">
+                                                <label for="status"
+                                                    class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                    Approval Status
+                                                </label>
+                                                <select id="status" name="status" class="form-control form-select">
+                                                    <option value="">All Status</option>
+                                                    <option value="pending">Pending</option>
+                                                    <option value="approved">Approved</option>
+                                                    <option value="rejected">Rejected</option>
+                                                </select>
+                                            </div>
 
-                                    </form>
+                                            <div class="">
+                                                <label for="employee_id"
+                                                    class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                    Employee
+                                                </label>
+                                                <select id="employee_id" name="employee_id" class="form-control form-select">
+                                                    <option value="">All Employees</option>
+                                                    @foreach ($employees as $employee)
+                                                        <option value="{{ $employee->id }}">
+                                                            {{ $employee->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="">
+                                                <label for="category_id"
+                                                    class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                                    Category
+                                                </label>
+                                                <select id="category_id" name="category_id" class="form-control form-select">
+                                                    <option value="">All Categories</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}">
+                                                            {{ $category->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            {{-- CSV Download Checkbox --}}
+                                            <div class="col-span-2">
+                                                <div class="form-check mt-8">
+                                                    <input class="form-check-input" type="checkbox" name="download_csv"
+                                                        value="1" id="download_csv"> <label class="form-check-label"
+                                                        for="download_csv">
+                                                        Download report
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="">
+                                                <button type="reset" class="btn btn-danger-200 text-danger-600 w-100">
+                                                    Reset
+                                                </button>
+                                            </div>
+
+                                            <div class="">
+                                                <button type="submit" class="btn btn-primary-600 w-100">
+                                                    Apply
+                                                </button>
+                                            </div>
+
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
+                    @endrole
 
                     <span class="successMessage  alert alert-success" style="width: 100%; display:none;">
                     </span>
@@ -221,23 +225,31 @@
                                                 <li>
                                                     @if ($expense->status === 'pending')
                                                 <li>
+                                                   @can('expense.edit')
                                                     <x-buttons.action-group-component type="edit" :url="route('expenses.edit', $expense->id)" />
+                                                   @endcan
                                                 </li>
+                                                @role('manager')
                                                 <li>
                                                     <x-buttons.action-group-component type="approve" :id="$expense->id" />
                                                 </li>
                                                 <li>
                                                     <x-buttons.action-group-component type="reject" :id="$expense->id" />
                                                 </li>
+                                                @endrole
                             @endif
 
                             </li>
                             <li>
-                                @if ($expense->trashed())
+                                @role('admin')
+                                 @if ($expense->trashed())
                                     <x-buttons.action-group-component type="restore" :url="route('expenses.restore', $expense->id)" />
                                     <x-buttons.action-group-component type="permanent-delete" :url="route('expenses.forceDelete', $expense->id)" />
                                 @else
+                                    <x-buttons.action-group-component type="delete" :url="route('expenses.destroy', $expense->id)" />
                                 @endif
+                                @endrole
+                               
 
                             </li>
                             </ul>
@@ -253,8 +265,8 @@
                     @endforelse
                     </tbody>
                     </table>
-                    <x-buttons.expense-status-modal-component />
-                    <div class="row text-right">
+                  <x-buttons.expense-status-modal-component />
+                   <div class="row text-right">
                         {{ $expenses->links() }}
                     </div>
                 </div>
@@ -262,14 +274,15 @@
         </div>
     </div>
     </div>
-    @push('scripts')
-        @if (session('auto_download') || (isset($auto_download) && $auto_download))
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Auto download trigger
-                    window.location.href = '{{ route('expense.export') }}';
-                });
-            </script>
-        @endif
-    @endpush
+    
+   {{-- @push('scripts')
+@if(session('auto_download') || isset($auto_download) && $auto_download)
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+       
+        window.location.href = '{{ route("expense.export") }}';
+    });
+</script>
+@endif
+@endpush --}}
 @endsection

@@ -67,6 +67,10 @@ class User extends Authenticatable
     }
     public function scopeEmployee($query)
     {
-        return $query->role('admin')->select('id', 'name')->latest();
+        return $query->role('employee')->select('id', 'name')->latest();
+    }
+    public function scopeManager($query)
+    {
+        return $query->role('manager')->select('id', 'name')->latest();
     }
 }

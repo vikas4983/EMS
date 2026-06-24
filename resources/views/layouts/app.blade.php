@@ -233,51 +233,77 @@
                     </a>
 
                 </li>
-                <li class="dropdown">
-                    <a href="javascript:void(0)">
-                        <i class="ri-graduation-cap-line"></i>
-                        <span>Categories</span>
-                    </a>
-                    <ul class="sidebar-submenu">
-                        <li>
-                            <a href="{{ route('categories.index') }}">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                List
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('categories.create') }}">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                Create
-                            </a>
-                        </li>
+                @role('admin')
+                    <li class="dropdown">
+                        <a href="javascript:void(0)">
+                            <i class="ri-graduation-cap-line"></i>
+                            <span>Categories</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li>
+                                <a href="{{ route('categories.index') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    List
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('categories.create') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    Create
+                                </a>
+                            </li>
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                @endrole
                 <li class="dropdown">
                     <a href="javascript:void(0)">
                         <i class="ri-graduation-cap-line"></i>
                         <span>Expenses</span>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li>
-                            <a href="{{ route('expenses.index') }}">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                List
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('expenses.create') }}">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                Create
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('expenses.trashed') }}">
-                                <i class="ri-circle-fill circle-icon w-auto"></i>
-                                Trashed Expenses
-                            </a>
-                        </li>
+                        @role('employee')
+                            <li>
+                                <a href="{{ route('expenses.index') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    List
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('expenses.create') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    Create
+                                </a>
+                            </li>
+                        @endrole
+                        @role('manager')
+                            <li>
+                                <a href="{{ route('get-expenses') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    List
+                                </a>
+                            </li>
+                        @endrole
+                        @role('admin')
+                            <li>
+                                <a href="{{ route('expenses.create') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    Create
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('get-expenses') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    List
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('expenses.trashed') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    Trashed Expenses
+                                </a>
+                            </li>
+                        @endrole
 
                     </ul>
                 </li>
@@ -306,144 +332,7 @@
                         <button type="button" data-theme-toggle
                             class="w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
                             aria-label="Dark & Light Mode Button"></button>
-                        <div class="dropdown d-inline-block">
-                            <button
-                                class="has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
-                                type="button" data-bs-toggle="dropdown" aria-label="Language Change Button">
-                                <img src="{{ asset('') }}assets/images/flag1.png" alt="image"
-                                    class="w-24 h-24 object-fit-cover rounded-circle">
-                            </button>
-                            <div class="dropdown-menu to-top dropdown-menu-sm">
-                                <div
-                                    class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
-                                    <div>
-                                        <h6 class="text-lg text-primary-light fw-semibold mb-0">Choose Your Language
-                                        </h6>
-                                    </div>
-                                </div>
 
-                                <div class="max-h-400-px overflow-y-auto scroll-sm pe-8">
-                                    <div
-                                        class="form-check style-check d-flex align-items-center justify-content-between mb-16">
-                                        <label class="form-check-label line-height-1 fw-medium text-secondary-light"
-                                            for="english">
-                                            <span
-                                                class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="{{ asset('') }}assets/images/flag1.png" alt="Image"
-                                                    class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
-                                                <span class="text-md fw-semibold mb-0">English</span>
-                                            </span>
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="crypto"
-                                            id="english">
-                                    </div>
-
-                                    <div
-                                        class="form-check style-check d-flex align-items-center justify-content-between mb-16">
-                                        <label class="form-check-label line-height-1 fw-medium text-secondary-light"
-                                            for="japan">
-                                            <span
-                                                class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="{{ asset('') }}assets/images/flag2.png" alt="Image"
-                                                    class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
-                                                <span class="text-md fw-semibold mb-0">Japan</span>
-                                            </span>
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="crypto"
-                                            id="japan">
-                                    </div>
-
-                                    <div
-                                        class="form-check style-check d-flex align-items-center justify-content-between mb-16">
-                                        <label class="form-check-label line-height-1 fw-medium text-secondary-light"
-                                            for="france">
-                                            <span
-                                                class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="{{ asset('') }}assets/images/flag3.png" alt="Image"
-                                                    class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
-                                                <span class="text-md fw-semibold mb-0">France</span>
-                                            </span>
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="crypto"
-                                            id="france">
-                                    </div>
-
-                                    <div
-                                        class="form-check style-check d-flex align-items-center justify-content-between mb-16">
-                                        <label class="form-check-label line-height-1 fw-medium text-secondary-light"
-                                            for="germany">
-                                            <span
-                                                class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="{{ asset('') }}assets/images/flag4.png" alt="Image"
-                                                    class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
-                                                <span class="text-md fw-semibold mb-0">Germany</span>
-                                            </span>
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="crypto"
-                                            id="germany">
-                                    </div>
-
-                                    <div
-                                        class="form-check style-check d-flex align-items-center justify-content-between mb-16">
-                                        <label class="form-check-label line-height-1 fw-medium text-secondary-light"
-                                            for="korea">
-                                            <span
-                                                class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="{{ asset('') }}assets/images/flag5.png" alt="Image"
-                                                    class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
-                                                <span class="text-md fw-semibold mb-0">South Korea</span>
-                                            </span>
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="crypto"
-                                            id="korea">
-                                    </div>
-
-                                    <div
-                                        class="form-check style-check d-flex align-items-center justify-content-between mb-16">
-                                        <label class="form-check-label line-height-1 fw-medium text-secondary-light"
-                                            for="bangladesh">
-                                            <span
-                                                class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="{{ asset('') }}assets/images/flag6.png" alt="Image"
-                                                    class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
-                                                <span class="text-md fw-semibold mb-0">Bangladesh</span>
-                                            </span>
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="crypto"
-                                            id="bangladesh">
-                                    </div>
-
-                                    <div
-                                        class="form-check style-check d-flex align-items-center justify-content-between mb-16">
-                                        <label class="form-check-label line-height-1 fw-medium text-secondary-light"
-                                            for="india">
-                                            <span
-                                                class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="{{ asset('') }}assets/images/flag7.png" alt="Image"
-                                                    class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
-                                                <span class="text-md fw-semibold mb-0">India</span>
-                                            </span>
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="crypto"
-                                            id="india">
-                                    </div>
-                                    <div
-                                        class="form-check style-check d-flex align-items-center justify-content-between">
-                                        <label class="form-check-label line-height-1 fw-medium text-secondary-light"
-                                            for="canada">
-                                            <span
-                                                class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                                <img src="{{ asset('') }}assets/images/flag8.png" alt="Image"
-                                                    class="w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0">
-                                                <span class="text-md fw-semibold mb-0">Canada</span>
-                                            </span>
-                                        </label>
-                                        <input class="form-check-input" type="radio" name="crypto"
-                                            id="canada">
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- Language dropdown end -->
 
                         <div class="dropdown">
                             <button

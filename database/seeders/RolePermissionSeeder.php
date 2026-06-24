@@ -25,8 +25,10 @@ class RolePermissionSeeder extends Seeder
 
         
         $manager->syncPermissions([
+            'expense.view',
             'expense.approve',
             'expense.reject',
+            'expense.comment',
         ]);
 
        

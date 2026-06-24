@@ -11,11 +11,11 @@ class ExpenseFilterService
         return Expense::query()
 
             ->when(!empty($filters['start_date']), function ($query) use ($filters) {
-                $query->whereDate('created_at', '>=', $filters['start_date']);
+                $query->whereDate('expense_date', '>=', $filters['start_date']);
             })
 
             ->when(!empty($filters['end_date']), function ($query) use ($filters) {
-                $query->whereDate('created_at', '<=', $filters['end_date']);
+                $query->whereDate('expense_date', '<=', $filters['end_date']);
             })
 
             ->when(!empty($filters['employee_id']), function ($query) use ($filters) {
