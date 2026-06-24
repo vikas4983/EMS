@@ -9,9 +9,10 @@ class Expense extends Model
 {
     protected $casts = [
         'expense_date' => 'date',
+        'amount' => 'integer',
     ];
     use SoftDeletes;
-    protected $fillable = ['user_id', 'category_id', 'title', 'status', 'amount', 'expense_date', 'description','manager_comment'];
+    protected $fillable = ['user_id', 'category_id', 'title', 'status', 'amount', 'expense_date', 'description', 'manager_comment'];
 
     public function user()
     {
@@ -39,7 +40,26 @@ class Expense extends Model
     }
     public function receipts()
     {
-        return $this->hasMany(ExpenseReceipt::class,'expense_id');
+        return $this->hasMany(ExpenseReceipt::class, 'expense_id');
     }
-    
+
+    public function scopeApprovedThisMonth($query)
+    {
+        return $query->whereMonth('expense_date', now()->month)->whereYear('expense_date', now()->year)->where('status', 'approved');
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+    public function scopeApproved($query)
+    {
+        return $query->where('status', 'approved');
+    }
+
+   
+    public function scopeForTeam($query, $teamIds)
+    {
+        return $query->whereIn('user_id', $teamIds);
+    }
 }

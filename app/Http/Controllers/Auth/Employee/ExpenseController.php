@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\Auth\Employee;
 
-use App\Http\Controllers\Controller; // ✅ Base controller extend
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Expense\ExpenseRequest;
 use App\Models\Expense;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\ExpenseReceipt;
-use App\Http\Requests\ExpenseRequest;
-use App\Services\NotificationService; // ✅ Check karo yeh class exist karti hai
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage; // ✅ SAHI - Single Facades
+use Illuminate\Support\Facades\Storage;
 
-class ExpenseController extends Controller // ✅ Extend karo
+class ExpenseController extends Controller
 {
-    
     protected $notificationService;
 
     public function __construct(NotificationService $notificationService)
@@ -29,7 +27,7 @@ class ExpenseController extends Controller // ✅ Extend karo
      */
     public function index()
     {
-       auth()->user()->can('expense.view') ?: abort(403);
+        auth()->user()->can('expense.view') ?: abort(403);
         $expenses = auth()
             ->user()
             ->expenses()
@@ -64,7 +62,6 @@ class ExpenseController extends Controller // ✅ Extend karo
         $validatedData = $request->validated();
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['status'] = 'pending';
-
         DB::beginTransaction();
         try {
             $expense = Expense::create($validatedData);
@@ -164,6 +161,13 @@ class ExpenseController extends Controller // ✅ Extend karo
 
     public function getExpense()
     {
+        if (
+            !auth()
+                ->user()
+                ->hasAnyRole(['admin', 'manager'])
+        ) {
+            abort(403, 'Unauthorized access.');
+        }
         $expenses = Expense::latest()->paginate(5);
         $categories = Category::active()->get();
         $employees = User::employee()->get();

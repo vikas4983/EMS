@@ -274,15 +274,5 @@
         </div>
     </div>
     </div>
-    
-   {{-- @push('scripts')
-@if(session('auto_download') || isset($auto_download) && $auto_download)
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-       
-        window.location.href = '{{ route("expense.export") }}';
-    });
-</script>
-@endif
-@endpush --}}
+   
 @endsection
