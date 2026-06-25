@@ -1,62 +1,211 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# EMS - Expense Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel 13 based expense management system. Built this as an assignment — covers everything from auth to real-time notifications.
 
-## About Laravel
+**Repository:** https://github.com/vikas4983/EMS.git
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Laravel 13
+- Livewire (Jetstream)
+- Spatie Permission (roles/permissions)
+- Laravel Reverb + Echo (websockets)
+- MySQL
+- Vite
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Git Branching
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Maintained separate branches throughout development instead of pushing everything to main.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+main                    → stable, final code
+develop                 → active development, all features merged here
+dashbord                → dashboard with role-based stats and caching
+test-case               → unit & feature tests (approval, creation, notifications, reports)
+real-time-notification  → Laravel Reverb + Echo setup, navbar notification dropdown
+soft-delete-category    → soft deletes on categories and expenses
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
 
-## Contributing
+Workflow followed:
+- New feature → branch off `develop`
+- Once done → merge back into `develop`
+- After full testing → merge `develop` into `main`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## How to Run
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**1. Clone & install dependencies**
 
-## Security Vulnerabilities
+```bash
+git clone https://github.com/vikas4983/EMS.git
+cd EMS
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**2. Install Jetstream with Livewire**
 
-## License
+```bash
+composer require laravel/jetstream
+php artisan jetstream:install livewire
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# EMS
->>>>>>> 2cf85ad638614ded706146e0842e03cb98f73f00
+**3. Install Spatie Permission**
+
+```bash
+composer require spatie/laravel-permission
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+```
+
+**4. Install Laravel Reverb (WebSockets)**
+
+```bash
+composer require laravel/reverb
+php artisan reverb:install
+```
+
+**5. Setup .env**
+
+Fill in DB credentials, mail config, and Reverb keys.
+
+```env
+DB_DATABASE=ems
+DB_USERNAME=root
+DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=...
+MAIL_PORT=587
+MAIL_USERNAME=...
+MAIL_PASSWORD=...
+
+REVERB_APP_ID=...
+REVERB_APP_KEY=...
+REVERB_APP_SECRET=...
+REVERB_HOST=localhost
+REVERB_PORT=8080
+```
+
+**6. Migrate & seed**
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+Seeders create roles, permissions, default categories, and 3 demo users.
+
+**7. Start everything**
+
+Three terminals needed:
+
+```bash
+php artisan serve
+php artisan reverb:start
+php artisan queue:work
+```
+
+```bash
+npm run dev
+```
+
+---
+
+## Login Credentials (after seeding)
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@admin.com | password |
+| Manager | manager@manager.com | password |
+| Employee | employee@employee.com | password |
+
+---
+
+## What's Implemented
+
+**Auth & Roles**
+Jetstream handles login/logout. Used Spatie for RBAC — three roles: admin, manager, employee. Permission checks are on both the UI side and backend (middleware), so even if someone hits a URL directly they'll get blocked.
+
+**Categories**
+Simple CRUD, only admin can create/edit/delete. Soft deletes on categories.
+
+**Expenses**
+Employees submit with title, amount, date, category, description, and can upload multiple receipts (image or PDF). Receipts go into `storage` and are accessible only to logged-in users via a protected route.
+
+Employee can edit their expense as long as it's still pending. Once manager acts on it, editing is locked.
+
+**Approval Flow**
+Managers see all pending expenses and can approve or reject with a comment. After action, expense is locked for editing and notifications fire.
+
+**Notifications**
+Two things happen when manager approves/rejects — an email goes out (via queue) and a real-time notification shows up in the navbar dropdown (via Reverb + Echo). Same for when an employee submits a new expense — manager gets notified.
+
+**Dashboard**
+One dashboard page, content changes based on role. Shows total expenses this month, pending count, and top 5 categories. Stats are cached so it doesn't hammer the DB on every load.
+
+**Reports**
+Admin can filter expenses (by date range, category, status, employee) and download as PDF or CSV.
+
+**Performance**
+Eager loading on all list queries, pagination, cache on dashboard stats, emails in queue.
+
+---
+
+## Running Tests
+
+```bash
+# all tests
+php artisan test
+
+# expense folder
+php artisan test tests/Feature/Expense/
+php artisan test tests/Feature/Expense/ExpenseApprovalTest.php
+php artisan test tests/Feature/Expense/ExpenseCreationTest.php
+
+# notifications
+php artisan test tests/Feature/Notification/NotificationTest.php
+
+# reports
+php artisan test tests/Feature/Report/ReportExportTest.php
+```
+
+Tests use `RefreshDatabase` so they're isolated. Roles and permissions are created fresh in `setUp()` for each test class.
+
+---
+
+## Notes
+
+## AI Usage
+
+Like many developers, I use AI tools such as ChatGPT, Claude, Codex, and Antigravity as part of my daily development workflow. I mainly use them for research, learning new concepts, debugging, performance optimization, and exploring different implementation approaches.
+
+For this project, AI was mainly helpful in a few areas:
+
+- Understanding the initial setup and configuration of Laravel Reverb and Laravel Echo, as it was my first time working with real-time notifications.
+- Reviewing a few PHPUnit test cases and improving repetitive test setup.
+- Exploring optimization ideas such as eager loading, caching strategies, and general Laravel best practices.
+
+The application was developed by implementing and adapting these ideas based on the project requirements and my understanding of Laravel.
+
+---
+
+## Future Improvements
+
+Although the project meets the assignment requirements, there are several features that could be added in future versions:
+
+- Dashboard charts and analytics
+- Multi-level expense approval workflow
+- REST API for mobile or third-party integration
+- Improved mobile responsiveness
+- Activity and audit logs
+- Expense limits and department-wise budgets
+- Advanced filtering and reporting
+- Scheduled monthly expense summary emails
