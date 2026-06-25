@@ -24,6 +24,19 @@ class NotificationController extends Controller
         ]);
     }
 
+    public function latest(Request $request)
+    {
+        $userId = auth()->id();
+        $limit = $request->get('limit', 10);
+
+        $notifications = $this->notificationService->getAll($userId);
+
+        return response()->json([
+            'notifications' => $notifications->take($limit),
+            'unread_count' => $this->notificationService->getUnread($userId)->count()
+        ]);
+    }
+
     public function markAsRead($id)
     {
         $this->notificationService->markAsRead($id, auth()->id());

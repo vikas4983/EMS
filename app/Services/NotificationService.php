@@ -15,7 +15,7 @@ class NotificationService
     public function create($userId, $message, $type = 'info', $expenseId = null)
     {
         try {
-            // Store in database
+            
             $notification = Notification::create([
                 'user_id' => $userId,
                 'message' => $message,
@@ -23,7 +23,7 @@ class NotificationService
                 'expense_id' => $expenseId
             ]);
 
-            // Broadcast real-time
+          
             try {
                 broadcast(new ExpenseNotificationEvent([
                     'message' => $message,
@@ -37,7 +37,7 @@ class NotificationService
                 Log::error('Broadcast failed: ' . $e->getMessage());
             }
 
-            // Send email with receipts
+           
             $this->sendEmailNotification($userId, $message, $type, $expenseId);
 
             return $notification;
@@ -57,13 +57,12 @@ class NotificationService
                     $expense = Expense::with(['user', 'category', 'receipts'])->find($expenseId);
                 }
 
-               
                 $mail = new ExpenseNotificationMail(
-                    $message,      
-                    $type,         
-                    $expenseId,  
-                    $expense,     
-                    $user          
+                    $message,
+                    $type,
+                    $expenseId,
+                    $expense,
+                    $user
                 );
 
                 Mail::to($user->email)->send($mail);

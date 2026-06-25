@@ -28,7 +28,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('approve-expense', [ExpenseController::class, 'approve'])->name('expense.approve');
         Route::post('reject-expense', [ExpenseController::class, 'reject'])->name('expense.reject');
     });
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
-    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('index');
+        Route::get('/latest', [NotificationController::class, 'latest'])->name('latest');
+        Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
+        Route::post('/read-all', [NotificationController::class, 'markAllAsRead'])->name('read-all');
+    });
 });

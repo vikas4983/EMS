@@ -34,10 +34,12 @@ class ExpenseNotificationEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
+            'id' => $this->notification['notification_id'] ?? null,
             'message' => $this->notification['message'],
             'type' => $this->notification['type'],
             'expense_id' => $this->notification['expense_id'] ?? null,
             'time' => now()->format('h:i A'),
+            'created_at' => now()->toDateTimeString(),
             'read' => false
         ];
     }

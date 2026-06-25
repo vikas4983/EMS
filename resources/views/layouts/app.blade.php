@@ -3,6 +3,7 @@
 <html lang="en" data-theme="light">
 
 <head>
+    <meta name="user-id" content="{{ auth()->id() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <meta charset="UTF-8">
@@ -333,128 +334,56 @@
                             class="w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"
                             aria-label="Dark & Light Mode Button"></button>
 
-
-                        <div class="dropdown">
+                        <div class="dropdown" data-notification-dropdown>
                             <button
                                 class="has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center position-relative"
                                 type="button" data-bs-toggle="dropdown" aria-label="Notification Button">
                                 <iconify-icon icon="iconoir:bell" class="text-primary-light text-xl"></iconify-icon>
-                                <span
-                                    class="w-8-px h-8-px bg-danger-600 position-absolute end-0 top-0 rounded-circle mt-2 me-2"></span>
+                                <span id="notificationDot"
+                                    class="w-8-px h-8-px bg-danger-600 position-absolute end-0 top-0 rounded-circle mt-2 me-2"
+                                    style="display: none;"></span>
+                                <span id="notificationCount"
+                                    class="badge bg-danger position-absolute top-0 start-100 translate-middle"
+                                    style="display: none; font-size: 10px; min-width: 20px;">0</span>
                             </button>
-                            <div class="dropdown-menu to-top dropdown-menu-lg p-0">
-                                <div
-                                    class="m-16 py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
-                                    <div>
-                                        <h6 class="text-lg text-primary-light fw-semibold mb-0">Notifications</h6>
+
+                            <div class="dropdown-menu to-top dropdown-menu-lg p-0"
+                                style="width: 380px; max-height: 500px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.10);">
+                                <div class="d-flex align-items-center justify-content-between py-10 px-16 border-bottom"
+                                    style="background: #f8fafc; border-radius: 8px 8px 0 0;">
+                                    <h6 class="text-md fw-semibold mb-0">Notifications</h6>
+                                    <button type="button" id="markAllReadBtn"
+                                        class="btn btn-sm btn-link text-primary"
+                                        style="font-size: 12px; text-decoration: none; padding: 2px 10px;">
+                                        Mark all read
+                                    </button>
+                                </div>
+
+                                <div id="notificationList" class="overflow-y-auto" style="max-height: 380px;">
+                                    <div class="text-center py-4" id="notificationLoading">
+                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2 mb-0 text-sm text-muted">Loading...</p>
                                     </div>
-                                    <span
-                                        class="text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center">05</span>
                                 </div>
 
-                                <div class="max-h-400-px overflow-y-auto scroll-sm pe-4">
-                                    <a href="javascript:void(0)"
-                                        class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
-                                        <div
-                                            class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                            <span
-                                                class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0">
-                                                <iconify-icon icon="bitcoin-icons:verify-outline"
-                                                    class="icon text-xxl"></iconify-icon>
-                                            </span>
-                                            <div>
-                                                <h6 class="text-md fw-semibold mb-4">Congratulations</h6>
-                                                <p class="mb-0 text-sm text-secondary-light text-w-200-px">Your profile
-                                                    has been Verified. Your
-                                                    profile has been Verified</p>
-                                            </div>
-                                        </div>
-                                        <span class="text-sm text-secondary-light flex-shrink-0">23 Mins ago</span>
-                                    </a>
-
-                                    <a href="javascript:void(0)"
-                                        class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50">
-                                        <div
-                                            class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                            <span
-                                                class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0">
-                                                <img src="{{ asset('') }}assets/images/profile-1.png"
-                                                    alt="Image">
-                                            </span>
-                                            <div>
-                                                <h6 class="text-md fw-semibold mb-4">Ronald Richards</h6>
-                                                <p class="mb-0 text-sm text-secondary-light text-w-200-px">You can
-                                                    stitch between artboards</p>
-                                            </div>
-                                        </div>
-                                        <span class="text-sm text-secondary-light flex-shrink-0">23 Mins ago</span>
-                                    </a>
-
-                                    <a href="javascript:void(0)"
-                                        class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
-                                        <div
-                                            class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                            <span
-                                                class="w-44-px h-44-px bg-info-subtle text-info-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0">
-                                                AM
-                                            </span>
-                                            <div>
-                                                <h6 class="text-md fw-semibold mb-4">Arlene McCoy</h6>
-                                                <p class="mb-0 text-sm text-secondary-light text-w-200-px">Invite you
-                                                    to prototyping</p>
-                                            </div>
-                                        </div>
-                                        <span class="text-sm text-secondary-light flex-shrink-0">23 Mins ago</span>
-                                    </a>
-
-                                    <a href="javascript:void(0)"
-                                        class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50">
-                                        <div
-                                            class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                            <span
-                                                class="w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0">
-                                                <img src="{{ asset('') }}assets/images/prof" alt="Image">
-                                            </span>
-                                            <div>
-                                                <h6 class="text-md fw-semibold mb-4">Robiul Hasan</h6>
-                                                <p class="mb-0 text-sm text-secondary-light text-w-200-px">Invite you
-                                                    to prototyping</p>
-                                            </div>
-                                        </div>
-                                        <span class="text-sm text-secondary-light flex-shrink-0">23 Mins ago</span>
-                                    </a>
-
-                                    <a href="javascript:void(0)"
-                                        class="px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between">
-                                        <div
-                                            class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
-                                            <span
-                                                class="w-44-px h-44-px bg-info-subtle text-info-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0">
-                                                DR
-                                            </span>
-                                            <div>
-                                                <h6 class="text-md fw-semibold mb-4">Darlene Robertson</h6>
-                                                <p class="mb-0 text-sm text-secondary-light text-w-200-px">Invite you
-                                                    to prototyping</p>
-                                            </div>
-                                        </div>
-                                        <span class="text-sm text-secondary-light flex-shrink-0">23 Mins ago</span>
+                                <div class="text-center py-8 border-top"
+                                    style="background: #f8fafc; border-radius: 0 0 8px 8px;">
+                                    <a href="javascript:void(0)" id="viewAllNotifications"
+                                        class="text-primary fw-semibold text-sm hover-underline">
+                                        View All
                                     </a>
                                 </div>
-
-                                <div class="text-center py-12 px-16">
-                                    <a href="javascript:void(0)"
-                                        class="text-primary-600 fw-semibold text-md hover-underline">See All
-                                        Notification</a>
-                                </div>
-
                             </div>
-                        </div><!-- Notification dropdown end -->
+                        </div>
+
 
                     </div>
                 </div>
             </div>
         </div>
+
         @yield('content')
         <footer class="d-footer">
             <div class="">
@@ -469,362 +398,31 @@
     <!-- Bootstrap js -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <!-- Apex Chart js -->
-    <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script> --}}
     <!-- Iconify Font js -->
     <script src="{{ asset('assets/js/iconify-icon.min.js') }}"></script>
     <!-- Data Table js -->
-    <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/dataTables.min.js') }}"></script> --}}
 
     <!-- jQuery UI js -->
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <!-- main js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
-
-    <script>
-        // ============================ Revenue Statistics Chart start ===============================
-        var options = {
-            series: [{
-                name: 'Total Fee',
-                data: [25, 35, 50, 60, 26, 20, 40, 20, 50, 16, 10, 40]
-            }, {
-                name: 'Collected Fee',
-                data: [15, 16, 24, 30, 20, 15, 20, 10, 25, 10, 6, 20]
-            }],
-            chart: {
-                type: 'bar',
-                height: 250,
-                stacked: true,
-                toolbar: {
-                    show: false
-                },
-                zoom: {
-                    enabled: true
-                }
-            },
-            colors: ["#25A194", "#FF7A2C"],
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: "50%",
-                    shape: "pyramid",
-                },
-            },
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr',
-                    'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-                ],
-            },
-            yaxis: {
-                labels: {
-                    formatter: function(value) {
-                        return "$" + value + "k";
-                    },
-                    style: {
-                        fontSize: "14px"
-                    }
-                },
-            },
-            legend: {
-                show: false,
-            },
-            fill: {
-                opacity: 1
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#revenueStatistic"), options);
-        chart.render()
-        // ============================ Revenue Statistics Chart End ===============================
-
-        // ===================== Income Vs Expense Start =============================== 
-        function createChartThree(chartId, color1, color2) {
-            var options = {
-                series: [{
-                    name: 'Income',
-                    data: [48, 35, 55, 32, 48, 30, 15, 50, 57]
-                }, {
-                    name: 'Expense',
-                    data: [12, 20, 15, 26, 22, 60, 40, 32, 25]
-                }],
-                legend: {
-                    show: false
-                },
-                chart: {
-                    type: 'area',
-                    width: '100%',
-                    height: 260,
-                    toolbar: {
-                        show: false
-                    },
-                    padding: {
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        bottom: 0
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'stepline',
-                    width: 2,
-                    colors: [color1, color2],
-                    lineCap: 'round'
-                },
-                grid: {
-                    show: true,
-                    borderColor: '#D1D5DB',
-                    strokeDashArray: 1,
-                    position: 'back',
-                    xaxis: {
-                        lines: {
-                            show: false
-                        }
-                    },
-                    yaxis: {
-                        lines: {
-                            show: true
-                        }
-                    },
-                    row: {
-                        colors: undefined,
-                        opacity: 0.2
-                    },
-                    column: {
-                        colors: undefined,
-                        opacity: 0.2
-                    },
-                    padding: {
-                        top: -20,
-                        right: 0,
-                        bottom: -10,
-                        left: 0
-                    },
-                },
-                colors: [color1, color2],
-                markers: {
-                    colors: [color1, color2],
-                    strokeWidth: 1,
-                    size: 0,
-                    hover: {
-                        size: 10
-                    }
-                },
-                xaxis: {
-                    labels: {
-                        show: false
-                    },
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    tooltip: {
-                        enabled: false
-                    },
-                    labels: {
-                        formatter: function(value) {
-                            return value;
-                        },
-                        style: {
-                            fontSize: "14px"
-                        }
-                    }
-                },
-                yaxis: {
-                    labels: {
-                        formatter: function(value) {
-                            return "$" + value + "k";
-                        },
-                        style: {
-                            fontSize: "14px"
-                        }
-                    },
-                },
-                tooltip: {
-                    x: {
-                        format: 'dd/MM/yy HH:mm'
-                    }
-                },
-                fill: {
-                    type: "gradient",
-                    gradient: {
-                        shade: "light",
-                        type: "vertical",
-                        opacityFrom: 0.4,
-                        opacityTo: 0.05,
-                        stops: [0, 100]
-                    }
-                }
-            };
-
-            var chart = new ApexCharts(document.querySelector(`#${chartId}`), options);
-            chart.render();
-        }
-
-        createChartThree('incomeExpense', '#16a34a', '#FF9F29');
-        // ===================== Income Vs Expense End =============================== 
-
-        // ================================ New Admissions Chart Start ================================ 
-        var options = {
-            series: [40, 87, 87, 30],
-            colors: ['#0A51CE', '#25A194', '#FF7A2C', '#009F5E'],
-            labels: ['Health', 'Business', 'Lifestyle', 'Entertainment'],
-            legend: {
-                show: false
-            },
-            chart: {
-                type: 'donut',
-                height: 270,
-                sparkline: {
-                    enabled: true // Remove whitespace
-                },
-                margin: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                },
-                padding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                }
-            },
-            stroke: {
-                width: 2,
-            },
-            dataLabels: {
-                enabled: false
-            },
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }],
-        };
-
-        var chart = new ApexCharts(document.querySelector("#newAdmissions"), options);
-        chart.render();
-        // ================================ New Admissions Chart End ================================ 
-
-        // ================================ Animated Radial Progress Bar Start ================================ 
-        $('svg.radial-progress').each(function(index, value) {
-            $(this).find($('circle.complete')).removeAttr('style');
-        });
-
-        // Activate progress animation on scroll
-        $(window).scroll(function() {
-            $('svg.radial-progress').each(function(index, value) {
-                // Trigger when the element is fully in the viewport
-                if (
-                    $(window).scrollTop() >= $(this).offset().top - $(window).height() &&
-                    $(window).scrollTop() <= $(this).offset().top + $(this).height()
-                ) {
-                    // Get percentage of progress
-                    const percent = $(value).data('percentage');
-                    // Get radius of the svg's circle.complete
-                    const radius = $(this).find($('circle.complete')).attr('r');
-                    // Get circumference (2πr)
-                    const circumference = 2 * Math.PI * radius;
-                    // Get stroke-dashoffset value based on the percentage of the circumference
-                    const strokeDashOffset = circumference - ((percent * circumference) / 100);
-                    // Transition progress for 1.25 seconds
-                    $(this).find($('circle.complete')).animate({
-                        'stroke-dashoffset': strokeDashOffset
-                    }, 1250);
-                }
-            });
-        }).trigger('scroll');
-        // ================================ Animated Radial Progress Bar End ================================
-
-        // ============================= Calendar Js Start =================================
-        let display = document.querySelector(".display");
-        let days = document.querySelector(".days");
-        let previous = document.querySelector(".left");
-        let next = document.querySelector(".right");
-
-        let date = new Date();
-
-        let year = date.getFullYear();
-        let month = date.getMonth();
-
-        function displayCalendar() {
-            const firstDay = new Date(year, month, 1);
-
-            const lastDay = new Date(year, month + 1, 0);
-
-            const firstDayIndex = firstDay.getDay(); //4
-
-            const numberOfDays = lastDay.getDate(); //31
-
-            let formattedDate = date.toLocaleString("en-US", {
-                month: "long",
-                year: "numeric"
-            });
-
-            display.innerHTML = `${formattedDate}`;
-
-            for (let x = 1; x <= firstDayIndex; x++) {
-                const div = document.createElement("div");
-                div.innerHTML += "";
-
-                days.appendChild(div);
-            }
-
-            for (let i = 1; i <= numberOfDays; i++) {
-                let div = document.createElement("div");
-                let currentDate = new Date(year, month, i);
-
-                div.dataset.date = currentDate.toDateString();
-
-                div.innerHTML += i;
-                days.appendChild(div);
-                if (
-                    currentDate.getFullYear() === new Date().getFullYear() &&
-                    currentDate.getMonth() === new Date().getMonth() &&
-                    currentDate.getDate() === new Date().getDate()
-                ) {
-                    div.classList.add("current-date");
-                }
-            }
-        }
-
-        // Call the function to display the calendar
-        displayCalendar();
-
-        previous.addEventListener("click", () => {
-            days.innerHTML = "";
-
-            if (month < 0) {
-                month = 11;
-                year = year - 1;
-            }
-            month = month - 1;
-            date.setMonth(month);
-            displayCalendar();
-        });
-
-        next.addEventListener("click", () => {
-            days.innerHTML = "";
-
-            if (month > 11) {
-                month = 0;
-                year = year + 1;
-            }
-
-            month = month + 1;
-            date.setMonth(month);
-
-            displayCalendar();
-        });
-        // ============================= Calendar Js End =================================
-    </script>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+        <div id="notificationToast" class="toast align-items-center border-0 shadow-lg" role="alert"
+            aria-live="assertive" aria-atomic="true" style="min-width: 300px; display: none; border-radius: 8px;">
+            <div class="d-flex align-items-center p-3">
+                <div class="flex-grow-1">
+                    <strong id="toastTitle" class="d-block mb-1 text-sm fw-semibold"></strong>
+                    <p id="toastMessage" class="mb-0 text-sm opacity-90"></p>
+                </div>
+                <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</body>@vite(['resources/js/app.js'])
 
 </body>
 
