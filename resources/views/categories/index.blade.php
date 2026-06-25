@@ -224,12 +224,21 @@
                                                 <iconify-icon icon="tabler:dots-vertical"></iconify-icon>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-lg-end border p-12">
-                                                <li>
-                                                    <x-buttons.action-group-component type="edit" :url="route('categories.edit', $category->id)" />
-                                                </li>
-                                                <li>
-                                                    <x-buttons.action-group-component type="delete" :url="route('categories.destroy', $category->id)" />
-                                                </li>
+                                                @if ($category->trashed())
+                                                    <x-buttons.action-group-component type="restore" :url="route('categories.restore', $category->id)" />
+                                                    <x-buttons.action-group-component type="permanent-delete"
+                                                        :url="route('categories.forceDelete', $category->id)" />
+                                                @else
+                                                    <li>
+                                                        <x-buttons.action-group-component type="edit"
+                                                            :url="route('categories.edit', $category->id)" />
+                                                    </li>
+                                                    <li>
+                                                        <x-buttons.action-group-component type="delete"
+                                                            :url="route('categories.destroy', $category->id)" />
+                                                    </li>
+                                                @endif
+
                                             </ul>
                                         </div>
 
@@ -237,6 +246,9 @@
 
                                 </tr>
                             @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">No Data Found!</td>
+                                </tr>
                             @endforelse
                             </tbody>
                         </table>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth\Admin;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CategoryRequest;
+use App\Models\User;
 
 class CategoryController extends Controller
 {
@@ -67,5 +68,23 @@ class CategoryController extends Controller
     {
         $category->delete();
         return back()->with('error', 'Category deleted successfully.');
+    }
+
+    public function restore($id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
+        $category->restore();
+        return back()->with('success', 'Category restored successfully.');
+    }
+    public function forceDelete($id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
+        $category->forceDelete();
+        return back()->with('error', 'Category deleted permanently.');
+    }
+    public function trashed()
+    {
+        $categories = Category::onlyTrashed()->latest()->paginate(10);
+      return view('categories.index', compact('categories'));
     }
 }

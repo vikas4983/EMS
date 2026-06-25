@@ -225,31 +225,31 @@
                                                 <li>
                                                     @if ($expense->status === 'pending')
                                                 <li>
-                                                   @can('expense.edit')
-                                                    <x-buttons.action-group-component type="edit" :url="route('expenses.edit', $expense->id)" />
-                                                   @endcan
+                                                    @can('expense.edit')
+                                                        <x-buttons.action-group-component type="edit" :url="route('expenses.edit', $expense->id)" />
+                                                    @endcan
                                                 </li>
                                                 @role('manager')
-                                                <li>
-                                                    <x-buttons.action-group-component type="approve" :id="$expense->id" />
-                                                </li>
-                                                <li>
-                                                    <x-buttons.action-group-component type="reject" :id="$expense->id" />
-                                                </li>
+                                                    <li>
+                                                        <x-buttons.action-group-component type="approve" :id="$expense->id" />
+                                                    </li>
+                                                    <li>
+                                                        <x-buttons.action-group-component type="reject" :id="$expense->id" />
+                                                    </li>
                                                 @endrole
                             @endif
 
                             </li>
                             <li>
                                 @role('admin')
-                                 @if ($expense->trashed())
-                                    <x-buttons.action-group-component type="restore" :url="route('expenses.restore', $expense->id)" />
-                                    <x-buttons.action-group-component type="permanent-delete" :url="route('expenses.forceDelete', $expense->id)" />
-                                @else
-                                    <x-buttons.action-group-component type="delete" :url="route('expenses.destroy', $expense->id)" />
-                                @endif
+                                    @if ($expense->trashed())
+                                        <x-buttons.action-group-component type="restore" :url="route('expenses.restore', $expense->id)" />
+                                        <x-buttons.action-group-component type="permanent-delete" :url="route('expenses.forceDelete', $expense->id)" />
+                                    @else
+                                        <x-buttons.action-group-component type="delete" :url="route('expenses.destroy', $expense->id)" />
+                                    @endif
                                 @endrole
-                               
+
 
                             </li>
                             </ul>
@@ -257,22 +257,21 @@
                     </td>
                     </tr>
                 @empty
+
                     <tr>
-                        <td colspan="7" class="text-center">
-                            <h6>No record found!</h6>
-                        </td>
+                        <td colspan="7" class="text-center">No Data Found!</td>
                     </tr>
-                    @endforelse
-                    </tbody>
-                    </table>
-                  <x-buttons.expense-status-modal-component />
-                   <div class="row text-right">
-                        {{ $expenses->links() }}
-                    </div>
+                    < @endforelse
+                        </tbody>
+                        </table>
+                        <x-buttons.expense-status-modal-component />
+                        <div class="row text-right">
+                            {{ $expenses->links() }}
+                        </div>
                 </div>
             </div>
         </div>
     </div>
     </div>
-   
+
 @endsection

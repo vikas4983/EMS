@@ -18,9 +18,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('expenses', ExpenseController::class);
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('categories', CategoryController::class);
+        // Expense
         Route::post('expenses/{id}', [ExpenseController::class, 'restore'])->name('expenses.restore');
         Route::post('forceDelete/{id}', [ExpenseController::class, 'forceDelete'])->name('expenses.forceDelete');
         Route::get('trashed-expenses', [ExpenseController::class, 'trashed'])->name('expenses.trashed');
+        // category
+        Route::post('category/{id}', [CategoryController::class, 'restore'])->name('categories.restore');
+        Route::post('category-force-delete/{id}', [CategoryController::class, 'forceDelete'])->name('categories.forceDelete');
+        Route::get('trashed-category', [CategoryController::class, 'trashed'])->name('categories.trashed');
 
         Route::get('expense-filter', [FilterExpenseController::class, 'filter'])->name('expense.filter');
     });

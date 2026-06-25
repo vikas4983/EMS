@@ -253,6 +253,12 @@
                                     Create
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('categories.trashed') }}">
+                                    <i class="ri-circle-fill circle-icon w-auto"></i>
+                                    Trashed Category
+                                </a>
+                            </li>
 
                         </ul>
                     </li>
