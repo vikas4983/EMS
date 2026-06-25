@@ -12,11 +12,10 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         $cacheKey = 'dashboard_' . $user->id;
-        $data = cache::remember($cacheKey, 300, function () use ($user) {
+        $data = Cache::remember($cacheKey, 300, function () use ($user) {
             return [
                 'totalExpenses' => Expense::approvedThisMonth()->sum('amount'),
                 'pendingExpenses' => Expense::pending()->count(),
-                'topCategories' => $this->getTopCategories(),
                 'expensesCount' => Expense::count(),
                 'employeePedningExpenses' => Expense::pending()->where('user_id', $user->id)->count(),
                 'employeeApprovedExpenses' => Expense::approved()->where('user_id', $user->id)->count(),
@@ -24,7 +23,7 @@ class DashboardController extends Controller
                 'managerApprovedExpenses' => Expense::approved()->count(),
             ];
         });
-
+        $data['topCategories'] = $this->getTopCategories();
         return view('dashboard', $data);
     }
 

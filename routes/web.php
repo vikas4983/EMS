@@ -16,6 +16,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get-expenses', [ExpenseController::class, 'getExpense'])->name('get-expenses');
     Route::get('receipts/{receipt}', [ExpenseController::class, 'download'])->name('receipts.download');
     Route::resource('expenses', ExpenseController::class);
+
+    // Only Admin Action
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('categories', CategoryController::class);
         // Expense
@@ -26,17 +28,21 @@ Route::middleware(['auth'])->group(function () {
         Route::post('category/{id}', [CategoryController::class, 'restore'])->name('categories.restore');
         Route::post('category-force-delete/{id}', [CategoryController::class, 'forceDelete'])->name('categories.forceDelete');
         Route::get('trashed-category', [CategoryController::class, 'trashed'])->name('categories.trashed');
-
+        // Filter
         Route::get('expense-filter', [FilterExpenseController::class, 'filter'])->name('expense.filter');
     });
+    // Only Manager Action
     Route::middleware(['role:manager'])->group(function () {
         Route::post('approve-expense', [ExpenseController::class, 'approve'])->name('expense.approve');
         Route::post('reject-expense', [ExpenseController::class, 'reject'])->name('expense.reject');
     });
-    Route::prefix('notifications')->name('notifications.')->group(function () {
-        Route::get('/', [NotificationController::class, 'index'])->name('index');
-        Route::get('/latest', [NotificationController::class, 'latest'])->name('latest');
-        Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
-        Route::post('/read-all', [NotificationController::class, 'markAllAsRead'])->name('read-all');
-    });
+    // Real Time Notification
+    Route::prefix('notifications')
+        ->name('notifications.')
+        ->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('index');
+            Route::get('/latest', [NotificationController::class, 'latest'])->name('latest');
+            Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
+            Route::post('/read-all', [NotificationController::class, 'markAllAsRead'])->name('read-all');
+        });
 });

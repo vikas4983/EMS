@@ -55,12 +55,14 @@
                                             </div>
                                             <p class="fw-medium text-primary-light mb-1">Total Categories</p>
                                         </div>
-                                        @foreach ($topCategories as $category)
+                                        @forelse ($topCategories as $category)
                                             <h6 class="mb-0">
-                                                {{ $category->category->name ?? 'Uncategorized' }}:
-                                                ₹{{ intval($category->total ?? 0) }}
+                                                {{ optional($category->category)->name ?? 'Uncategorized' }}:
+                                                ₹{{ number_format((float) $category->total, 2) }}
                                             </h6>
-                                        @endforeach
+                                        @empty
+                                            <h6 class="mb-0">No categories found.</h6>
+                                        @endforelse
 
                                     </div>
                                 </div>

@@ -29,7 +29,7 @@ class ExpenseSeeder extends Seeder
 
         // Pending Expenses
         $this->createExpenses(
-            count: 10,
+            count: 3,
             status: 'pending',
             userId: $employee->id,
             categories: $categories
@@ -37,7 +37,7 @@ class ExpenseSeeder extends Seeder
 
         // Approved Expenses
         $this->createExpenses(
-            count: 5,
+            count: 3,
             status: 'approved',
             userId: $employee->id,
             categories: $categories,

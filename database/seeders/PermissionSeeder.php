@@ -28,12 +28,6 @@ class PermissionSeeder extends Seeder
             'expense.approve',
             'expense.reject',
             'expense.comment',
-
-            // Report 
-            'report.view',
-            'report.generate',
-
-          
         ];
 
         foreach ($permissions as $permission) {

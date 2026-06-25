@@ -158,19 +158,7 @@
         <button type="button" class="sidebar-close-btn">
             <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
         </button>
-        <div class="">
-            <div class="sidebar-logo d-flex align-items-center justify-content-between">
-                <a href="schoolDashboard.html" class="">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="site logo" class="light-logo">
-                    <img src="{{ asset('assets/images/logo-light.png') }}" alt="site logo" class="dark-logo">
-                    <img src="{{ asset('assets/images/logo-icon.png') }}" alt="site logo" class="logo-icon">
-                </a>
-                <button type="button" class="text-xxl d-xl-flex d-none line-height-1 sidebar-toggle text-neutral-500"
-                    aria-label="Collapse Sidebar">
-                    <i class="ri-contract-left-line"></i>
-                </button>
-            </div>
-        </div>
+        
         @php
             $user = auth()->user();
         @endphp
@@ -197,21 +185,7 @@
                     </span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-lg-end border p-12">
-                    <li>
-                        <a href="student-details.html"
-                            class="dropdown-item rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-2 py-6">
-                            <i class="ri-user-3-line"></i>
-                            My Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a href="general.html"
-                            class="dropdown-item rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-2 py-6">
-                            <i class="ri-settings-3-line"></i>
-                            Setting
-                        </a>
-                    </li>
-                    <li>
+                   <li>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit"
@@ -237,7 +211,8 @@
                 @role('admin')
                     <li class="dropdown">
                         <a href="javascript:void(0)">
-                            <i class="ri-graduation-cap-line"></i>
+                         <i class="ri-folder-2-line"></i>
+
                             <span>Categories</span>
                         </a>
                         <ul class="sidebar-submenu">
@@ -265,7 +240,7 @@
                 @endrole
                 <li class="dropdown">
                     <a href="javascript:void(0)">
-                        <i class="ri-graduation-cap-line"></i>
+                        <i class="ri-wallet-line"></i>
                         <span>Expenses</span>
                     </a>
                     <ul class="sidebar-submenu">
@@ -292,12 +267,6 @@
                             </li>
                         @endrole
                         @role('admin')
-                            <li>
-                                <a href="{{ route('expenses.create') }}">
-                                    <i class="ri-circle-fill circle-icon w-auto"></i>
-                                    Create
-                                </a>
-                            </li>
                             <li>
                                 <a href="{{ route('get-expenses') }}">
                                     <i class="ri-circle-fill circle-icon w-auto"></i>
@@ -328,10 +297,7 @@
                             aria-label="Sidebar Mobile Toggler Button">
                             <iconify-icon icon="heroicons:bars-3-solid" class="icon"></iconify-icon>
                         </button>
-                        <form class="navbar-search">
-                            <input type="text" class="bg-transparent" name="search" placeholder="Search">
-                            <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
-                        </form>
+                        
                     </div>
                 </div>
                 <div class="col-auto">
@@ -393,7 +359,7 @@
         @yield('content')
         <footer class="d-footer">
             <div class="">
-                <p class="mb-0 text-center"> &copy; <span class="current-year"></span> Made With ❤️ by Wowtheme7.
+                <p class="mb-0 text-center"> &copy; <span class="current-year"></span> Expense Management System.
                 </p>
             </div>
         </footer>

@@ -18,23 +18,17 @@ class RolePermissionSeeder extends Seeder
         $manager = Role::findByName('manager');
         $employee = Role::findByName('employee');
 
-        
-        $admin->syncPermissions(
-            Permission::pluck('name')->toArray()
-        );
-
-        
-        $manager->syncPermissions([
-            'expense.approve',
-            'expense.reject',
-            'expense.comment',
+        $admin->syncPermissions([
+           
+            'category.view',
+            'category.create',
+            'category.edit',
+            'category.delete',
+            'expense.delete',
         ]);
 
-       
-        $employee->syncPermissions([
-            'expense.view',
-            'expense.create',
-            'expense.edit',
-        ]);
+        $manager->syncPermissions(['expense.approve', 'expense.reject', 'expense.comment']);
+
+        $employee->syncPermissions(['expense.view', 'expense.create', 'expense.edit']);
     }
 }

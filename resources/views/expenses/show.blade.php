@@ -31,96 +31,81 @@
                     <div class="shadow-1 radius-12 bg-base h-100 overflow-hidden">
                         <div
                             class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center justify-content-between">
-                            <h6 class="text-lg fw-semibold mb-0">Expense</h6>
+                            <h6 class="text-lg fw-semibold mb-0">Expense Details</h6>
+                            <span
+                                class="status-badge {{ $expense->status_badge_class }} px-24 py-4 radius-4 fw-medium text-sm">
+                                {{ ucfirst($expense->status) }}
+                            </span>
                         </div>
                         <div class="card-body p-20">
                             <div class="row gy-3">
                                 <div class="col-xxl-3 col-xl-4 col-sm-6">
                                     <div class="">
-                                        <label for="title"
-                                            class="text-sm fw-semibold text-primary-light d-inline-block mb-8 @error('title') is-invalid @enderror">
-                                            Title <span class="text-danger-600">* </span> </label>
-                                        <input type="text" class="form-control" id="title" name="title"
-                                            placeholder="Enter title" value="{{ old('title', $expense?->title) }}" required>
-                                        @error('title')
-                                            <span class="text-danger-600">{{ $message }}</span>
-                                        @enderror
+                                        <label class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                            Title
+                                        </label>
+                                        <p class="form-control bg-light">{{ $expense->title }}</p>
                                     </div>
                                 </div>
                                 <div class="col-xxl-3 col-xl-4 col-sm-6">
                                     <div class="">
-                                        <label for="amount"
-                                            class="text-sm fw-semibold text-primary-light d-inline-block mb-8">Amount <span
-                                                class="text-danger-600">* </span> </label>
-                                        <input type="number" class="form-control" id="amount" name="amount"
-                                            min="1" placeholder="Enter amount"
-                                            value="{{ old('amount', $expense?->amount) }}" required>
-                                        @error('amount')
-                                            <span class="text-danger-600">{{ $message }}</span>
-                                        @enderror
+                                        <label class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                            Amount
+                                        </label>
+                                        <p class="form-control bg-light">₹{{ number_format($expense->amount, 2) }}</p>
                                     </div>
                                 </div>
                                 <div class="col-xxl-3 col-xl-4 col-sm-6">
                                     <div class="">
-                                        <label for="expense_date"
-                                            class="text-sm fw-semibold text-primary-light d-inline-block mb-8">Expense Date
-                                            <span class="text-danger-600">* </span> </label>
-
-                                        <input type="date" class="form-control" id="expense_date" name="expense_date"
-                                            placeholder="Enter expense_date"
-                                            value="{{ old('expense_date', $expense->expense_date?->format('Y-m-d')) }}"
-                                            required>
-                                        @error('expense_date')
-                                            <span class="text-danger-600">{{ $message }}</span>
-                                        @enderror
+                                        <label class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                            Expense Date
+                                        </label>
+                                        <p class="form-control bg-light">{{ $expense->expense_date->format('d M Y') }}</p>
                                     </div>
                                 </div>
                                 <div class="col-xxl-3 col-xl-4 col-sm-6">
-                                    <label for="Expense_id"
-                                        class="text-sm fw-semibold text-primary-light d-inline-block mb-8 @error('Expense_id') is-invalid @enderror">Expense
-                                        <span class="text-danger-600">* </span></label>
-                                    <select name="Expense_id" class="form-control">
-                                        <option value="">Select Expense</option>
-
-                                        @foreach ($categories as $Expense)
-                                            <option value="{{ $Expense->id }}"
-                                                {{ old('Expense_id', $expense->Expense_id ?? '') == $Expense->id ? 'selected' : '' }}>
-                                                {{ $Expense->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('Expense_id')
-                                        <span class="text-danger-600">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-xxl-9 col-xl-4 col-sm-6">
                                     <div class="">
-                                        <label for="description"
-                                            class="text-sm fw-semibold text-primary-light d-inline-block mb-8 @error('description') is-invalid @enderror">
-                                            Description <span class="text-danger-600">* </span> </label>
-                                        <input type="text" class="form-control" id="description" name="description"
-                                            placeholder="Enter expense description"
-                                            value="{{ old('description', $expense?->description) }}">
-                                        @error('description')
-                                            <span class="text-danger-600">{{ $message }}</span>
-                                        @enderror
+                                        <label class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                            Category
+                                        </label>
+                                        <p class="form-control bg-light">{{ $expense->category->name ?? 'N/A' }}</p>
                                     </div>
                                 </div>
 
+                                <div class="col-xxl-3 col-xl-4 col-sm-6">
+                                    <div class="">
+                                        <label class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                            Submitted By
+                                        </label>
+                                        <p class="form-control bg-light">{{ $expense->user->name ?? 'N/A' }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-xl-4 col-sm-6">
+                                    <div class="">
+                                        <label class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                            Manager Comment
+                                        </label>
+                                        <p class="form-control bg-light">{{ $expense->manager_comment ?? 'No comment' }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-xxl-12">
+                                    <div class="">
+                                        <label class="text-sm fw-semibold text-primary-light d-inline-block mb-8">
+                                            Description
+                                        </label>
+                                        <p class="form-control bg-light" style="min-height: 60px;">
+                                            {{ $expense->description ?? 'No description' }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12">
-                    <div class="d-flex align-items-center justify-content-center gap-3 mt-8">
-                        <button type="submit"
-                            class="btn btn-primary-600 border border-primary-600 text-md px-28 py-12 radius-8">
-                            Update
-                        </button>
-                    </div>
-                </div>
+
             </div>
         </form>
     </div>

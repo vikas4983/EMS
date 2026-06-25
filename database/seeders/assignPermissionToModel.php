@@ -19,10 +19,16 @@ class assignPermissionToModel extends Seeder
 
        
         if ($admin) {
-            $admin->givePermissionTo(Permission::all());
+            $admin->givePermissionTo([
+                'category.view',
+                'category.create',
+                'category.edit',
+                'category.delete',
+                'expense.delete',
+            ]);
         }
 
-        // MANAGER: Approve/Reject permissions 
+        // MANAGER: 
         if ($manager) {
             $manager->givePermissionTo([
                'expense.approve',
@@ -31,7 +37,7 @@ class assignPermissionToModel extends Seeder
             ]);
         }
 
-        // EMPLOYEE: CRUD permissions 
+        // EMPLOYEE: 
         if ($employee) { 
             $employee->givePermissionTo([
                 'expense.view',

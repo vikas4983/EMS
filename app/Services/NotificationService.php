@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ExpenseNotificationMail;
 use Illuminate\Support\Facades\Log;
 
+
 class NotificationService
 {
     public function create($userId, $message, $type = 'info', $expenseId = null)
     {
         try {
-            
+
             $notification = Notification::create([
                 'user_id' => $userId,
                 'message' => $message,
@@ -23,7 +24,7 @@ class NotificationService
                 'expense_id' => $expenseId
             ]);
 
-          
+            // Sirf Broadcast - Email job mein handle ho jayega
             try {
                 broadcast(new ExpenseNotificationEvent([
                     'message' => $message,
@@ -37,9 +38,6 @@ class NotificationService
                 Log::error('Broadcast failed: ' . $e->getMessage());
             }
 
-           
-            $this->sendEmailNotification($userId, $message, $type, $expenseId);
-
             return $notification;
         } catch (\Exception $e) {
             Log::error('Notification creation failed: ' . $e->getMessage());
@@ -47,36 +45,7 @@ class NotificationService
         }
     }
 
-    protected function sendEmailNotification($userId, $message, $type, $expenseId)
-    {
-        try {
-            $user = User::find($userId);
-            if ($user && $user->email) {
-                $expense = null;
-                if ($expenseId) {
-                    $expense = Expense::with(['user', 'category', 'receipts'])->find($expenseId);
-                }
-
-                $mail = new ExpenseNotificationMail(
-                    $message,
-                    $type,
-                    $expenseId,
-                    $expense,
-                    $user
-                );
-
-                Mail::to($user->email)->send($mail);
-
-                Log::info('Email sent successfully to: ' . $user->email);
-                if ($expense && $expense->receipts) {
-                    Log::info('Receipts attached: ' . $expense->receipts->count() . ' files');
-                }
-            }
-        } catch (\Exception $e) {
-            Log::error('Email sending failed: ' . $e->getMessage());
-            Log::error('Trace: ' . $e->getTraceAsString());
-        }
-    }
+   
 
     public function getUnread($userId)
     {

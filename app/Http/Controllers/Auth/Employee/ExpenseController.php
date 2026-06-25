@@ -12,6 +12,7 @@ use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\SendNotificationJob;
 
 class ExpenseController extends Controller
 {
@@ -45,7 +46,7 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        auth()->user()->can('expense.edit') ?: abort(403);
+        auth()->user()->can('expense.create') ?: abort(403);
         $categories = Category::active()->select('name', 'id')->get();
         return view('expenses.create', compact('categories'));
     }
@@ -62,6 +63,7 @@ class ExpenseController extends Controller
         $validatedData = $request->validated();
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['status'] = 'pending';
+
         DB::beginTransaction();
         try {
             $expense = Expense::create($validatedData);
@@ -75,12 +77,15 @@ class ExpenseController extends Controller
                     ]);
                 }
             }
+
             $employee = auth()->user();
-            $managers = User::role('manager')->get();
-            foreach ($managers as $manager) {
-                $this->notificationService->create($manager->id, "New expense '{$expense->title}' (Rs. {$expense->amount}) submitted by {$employee->name}. Please review and take action.", 'info', $expense->id);
+            $managerIds = User::role('manager')->pluck('id');
+
+            foreach ($managerIds as $managerId) {
+                SendNotificationJob::dispatch($managerId, "New expense '{$expense->title}' (₹{$expense->amount}) submitted by {$employee->name}. Please review and take action.", 'info', $expense->id);
             }
-            $this->notificationService->create($employee->id, "Your expense '{$expense->title}' (Rs. {$expense->amount}) has been submitted successfully. Waiting for manager approval.", 'info', $expense->id);
+
+            SendNotificationJob::dispatch($employee->id, "Your expense '{$expense->title}' (₹{$expense->amount}) has been submitted successfully. Waiting for manager approval.", 'info', $expense->id);
 
             DB::commit();
             return redirect()->route('expenses.index')->with('success', 'Expense created successfully.');
@@ -95,7 +100,6 @@ class ExpenseController extends Controller
      */
     public function show(Expense $expense)
     {
-        auth()->user()->can('expense.edit') ?: abort(403);
         $categories = Category::active()->select('name', 'id')->get();
         return view('expenses.show', compact('expense', 'categories'));
     }
@@ -168,7 +172,7 @@ class ExpenseController extends Controller
         ) {
             abort(403, 'Unauthorized access.');
         }
-        $expenses = Expense::latest()->paginate(5);
+        $expenses = Expense::latest()->paginate(10);
         $categories = Category::active()->get();
         $employees = User::employee()->get();
         return view('expenses.index', compact('expenses', 'categories', 'employees'));
@@ -209,15 +213,15 @@ class ExpenseController extends Controller
                     $message .= " Manager Comment: {$request->description}";
                 }
 
-                $this->notificationService->create($employee->id, $message, 'success', $expense->id);
+                SendNotificationJob::dispatch($employee->id, $message, 'success', $expense->id);
             }
 
             DB::commit();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Expense approved successfully. Employee has been notified.',
-                'data' => $expense,
+                'message' => 'Expense approved successfully.',
+                'data' => $expense->fresh(['user', 'category']),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -264,14 +268,15 @@ class ExpenseController extends Controller
                 $message = "Your expense '{$expense->title}' (₹{$expense->amount}) has been REJECTED by {$manager->name}.";
                 $message .= " Reason: {$request->description}";
 
-                $this->notificationService->create($employee->id, $message, 'error', $expense->id);
+                SendNotificationJob::dispatch($employee->id, $message, 'error', $expense->id);
             }
+
             DB::commit();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Expense rejected successfully. Employee has been notified.',
-                'data' => $expense,
+                'message' => 'Expense rejected successfully.',
+                'data' => $expense->fresh(['user', 'category']),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

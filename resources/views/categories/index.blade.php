@@ -1,26 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Categories')
 @section('content')
-    <style>
-        .dataTables_paginate,
-        .dataTables_info,
-        .dataTables_length,
-        .dataTables_filter {
-            display: none !important;
-        }
 
-        .dropdown-submenu .excel-submenu {
-            display: none;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            cursor: pointer;
-        }
-
-        .dropdown-submenu:hover .excel-submenu {
-            display: block;
-        }
-    </style>
     <div class="dashboard-main-body">
         <div class="breadcrumb d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
             <a href="{{ route('categories.create') }}" class="btn btn-primary-600 d-flex align-items-center gap-6 ">
