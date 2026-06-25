@@ -46,76 +46,106 @@ Workflow followed:
 git clone https://github.com/vikas4983/EMS.git
 cd EMS
 composer install
-npm install
 cp .env.example .env
 php artisan key:generate
-```
-
-**2. Install Jetstream with Livewire**
-
-```bash
-composer require laravel/jetstream
-php artisan jetstream:install livewire
-```
-
-**3. Install Spatie Permission**
-
-```bash
-composer require spatie/laravel-permission
-php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
-```
-
-**4. Install Laravel Reverb (WebSockets)**
-
-```bash
 composer require laravel/reverb
 php artisan reverb:install
-```
-
-**5. Setup .env**
-
-Fill in DB credentials, mail config, and Reverb keys.
-
-```env
-DB_DATABASE=ems
-DB_USERNAME=root
-DB_PASSWORD=
-
-MAIL_MAILER=smtp
-MAIL_HOST=...
-MAIL_PORT=587
-MAIL_USERNAME=...
-MAIL_PASSWORD=...
-
-REVERB_APP_ID=...
-REVERB_APP_KEY=...
-REVERB_APP_SECRET=...
-REVERB_HOST=localhost
-REVERB_PORT=8080
-```
-
-**6. Migrate & seed**
-
-```bash
+npm install
+npm run dev
 php artisan migrate
 php artisan db:seed
-```
-
-Seeders create roles, permissions, default categories, and 3 demo users.
-
-**7. Start everything**
-
-Three terminals needed:
-
-```bash
 php artisan serve
 php artisan reverb:start
 php artisan queue:work
+
+**2. Setup .env**
+
+Fill in DB credentials, mail config, and Reverb keys.
+
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:aaPWyNOdjCm+VdDjE9MRen8m2mBN/NIr8yob6SgTVCU=
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+TELESCOPE_ENABLED=false
+
+APP_LOCALE=en
+APP_FALLBACK_LOCALE=en
+APP_FAKER_LOCALE=en_US
+
+APP_MAINTENANCE_DRIVER=file
+
+BCRYPT_ROUNDS=12
+
+LOG_CHANNEL=stack
+LOG_STACK=single
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=demo_ems
+DB_USERNAME=root
+DB_PASSWORD=
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+SESSION_ENCRYPT=false
+SESSION_PATH=/
+SESSION_DOMAIN=null
+
+BROADCAST_DRIVER=reverb
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=database
+
+CACHE_STORE=file
+
+MEMCACHED_HOST=127.0.0.1
+
+REDIS_CLIENT=phpredis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=email
+MAIL_PASSWORD=mailPassword
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS="email"
+MAIL_FROM_NAME="Test"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
+
+VITE_APP_NAME="${APP_NAME}"
+
+REVERB_APP_ID=846294
+REVERB_APP_KEY=emsreverbkey2026
+REVERB_APP_SECRET=emsreverbsecret2026
+REVERB_HOST=127.0.0.1
+REVERB_PORT=8080
+REVERB_SCHEME=http
+REVERB_HOSTNAME=localhost
+
+REVERB_PULSE_ENABLED=true
+REVERB_PULSE_SAMPLE_RATE=10
+REVERB_PULSE_INGEST_INTERVAL=15
+
+REVERB_TELESCOPE_ENABLED=false
+REVERB_TELESCOPE_INGEST_INTERVAL=15
+
+VITE_REVERB_APP_KEY="${REVERB_APP_KEY}"
+VITE_REVERB_HOST="${REVERB_HOST}"
+VITE_REVERB_PORT="${REVERB_PORT}"
+VITE_REVERB_SCHEME="${REVERB_SCHEME}"
 ```
 
-```bash
-npm run dev
-```
 
 ---
 
